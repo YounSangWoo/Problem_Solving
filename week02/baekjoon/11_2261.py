@@ -23,7 +23,7 @@ def dot_distance(start, end):
         return float('inf')
         
     if end - start == 1:
-        return cal_distance(dot_list[0], dot_list[1])
+        return cal_distance(dot_list[start], dot_list[end])
     
     mid = (start + end) // 2
     min_distance = min(dot_distance(start, mid), dot_distance(mid+1, end))
@@ -36,6 +36,7 @@ def dot_distance(start, end):
     possilbe_dot.sort(key=lambda x: x[1])
 
     p_len = len(possilbe_dot)
+    
     for i in range(p_len-1):
         for j in range(i+1, p_len):
             if (possilbe_dot[i][1]-possilbe_dot[j][1]) ** 2 < min_distance:

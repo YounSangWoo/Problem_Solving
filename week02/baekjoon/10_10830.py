@@ -36,7 +36,9 @@ def divide(size, trial, matrix):
         else :
             return matrix_mul(size, matrix_mul(size, part, part), matrix)
 
+
 result = divide(N, B, A)
+
 for row in result :
     for num in row :
         print(num%1000, end=' ')
