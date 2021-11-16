@@ -17,6 +17,9 @@
 ##### 출력 #####
 # 출력해야하는 명령이 주어질 때마다, 한 줄에 하나씩 출력한다.
 
+import sys
+from collections import deque
+
 class Queue:
     def __init__(self):
         self.queue = deque()
@@ -53,11 +56,8 @@ class Queue:
             return -1
 
 
-import sys
-from collections import deque
 
 N = int(input())
-
 case = Queue()
 
 for _ in range(N):

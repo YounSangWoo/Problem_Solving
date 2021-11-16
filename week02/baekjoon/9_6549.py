@@ -14,51 +14,50 @@
 
 import sys
 
+def divide(start_idx, end_idx):
+    if start_idx == end_idx :
+        return histogram_height[start_idx]
+        
+    else :
+        # 중간 기준으로 살펴보기
+        mid_idx = (start_idx + end_idx) // 2
+        mid_left = mid_idx
+        mid_right = mid_idx + 1
+        mid_height = min(histogram_height[mid_left], histogram_height[mid_right])
+        mid_area = 2 * mid_height
+
+        width = 2
+        while True:
+            if (histogram_height[mid_left] == 0 or mid_left == start_idx) and (
+                histogram_height[mid_right] == 0 or mid_right == end_idx):
+                break
+            elif histogram_height[mid_left] == 0 or mid_left == start_idx:
+                if histogram_height[mid_right+1] < mid_height:
+                    mid_height = histogram_height[mid_right+1]
+                mid_right += 1
+            elif histogram_height[mid_right] == 0 or mid_right == end_idx:
+                if histogram_height[mid_left-1] < mid_height:
+                    mid_height = histogram_height[mid_left-1]
+                mid_left -= 1
+            else :
+                if histogram_height[mid_left-1] > histogram_height[mid_right+1]:
+                    if histogram_height[mid_left-1] < mid_height:
+                        mid_height = histogram_height[mid_left-1]
+                    mid_left -= 1
+                else :
+                    if histogram_height[mid_right+1] < mid_height:
+                        mid_height = histogram_height[mid_right+1]
+                    mid_right += 1
+            width += 1
+            mid_area = max(mid_area, mid_height * width)
+
+        return max(divide(start_idx, mid_idx), divide(mid_idx+1,end_idx), mid_area)
+
+
 while True :
-    input = list(map(int, sys.stdin.readline().split()))
-    if input[0] == 0 :
+    histogram_info = list(map(int, sys.stdin.readline().split()))
+    histogram_num = histogram_info[0]
+    if histogram_num == 0 :
         break
-    height_info = input[1:]
-
-    width = 1
-    area = 0
-
-    def divide(height_info, area):    
-        if len(height_info) == 1 :
-            temp = height_info[0] * width
-            area = max(temp, area)
-            return area 
-        elif not height_info :
-            return area
-
-        mid = len(height_info) // 2
-        
-        center = height_info[mid] * width
-        temp = 0
-        if (len(height_info) % 2) != 0 :
-            if height_info[mid] < height_info[mid-1] and height_info[mid+1] :
-                temp = height_info[mid] * 3
-            elif height_info[mid-1] < height_info[mid] <= height_info[mid+1]:
-                temp = height_info[mid] * 2
-            elif height_info[mid-1] >= height_info[mid] > height_info[mid+1]:
-                temp = height_info[mid] * 2
-            elif height_info[mid-1]<= height_info[mid+1] < height_info[mid]:
-                temp = height_info[mid+1] * 2
-            elif height_info[mid+1]<= height_info[mid-1] < height_info[mid]:
-                temp = height_info[mid-1] * 2
-        
-        if height_info[mid] == height_info[mid-1]:
-            temp = len(height_info) * height_info[mid]
-
-        center = max(center, temp)
-        area = max(center, divide(height_info[:mid], area), divide(height_info[mid+1:], area))
-        
-        return area
-
-    print(divide(height_info, 0))
-
-
-    
-    
-    
-    
+    histogram_height = histogram_info[1:]
+    print(divide(0, histogram_num-1))

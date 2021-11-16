@@ -23,12 +23,18 @@ catch_count = 0
 
 def find_closest_rifle(rifles_loc, x):
     rifles_idx = bisect_left(rifles_loc, x)
-    if rifles_loc == 0:
+    if rifles_idx == 0:
         return rifles_loc[0]
     elif rifles_idx == len(rifles_loc):
         return rifles_loc[-1]
     else :
-        return rifles_loc[rifles_idx]
+        left = rifles_loc[rifles_idx-1]
+        right = rifles_loc[rifles_idx]
+
+        if 2 * x < left + right :
+            return left
+        else :
+            return right
 
 for x, y in animals_loc :
     closest_rifle = find_closest_rifle(rifles_loc, x)
