@@ -18,6 +18,7 @@ input = sys.stdin.readline
 num_of_people = int(input())
 
 location = [sorted(list(map(int, input().split()))) for i in range(num_of_people)]
+print(location)
 location.sort(key=lambda x: x[1])
 print(location)
 
@@ -31,7 +32,7 @@ for s, e in location:
     if s + distance >= e :
         heapq.heappush(heap, s)
 
-    while heap and heap[0] + distance <= e :
+    while heap and heap[0] + distance < e :
         heapq.heappop(heap)
 
     result = max(result, len(heap))

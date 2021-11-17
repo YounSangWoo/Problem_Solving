@@ -10,33 +10,36 @@
 import sys
 
 parenthesis = sys.stdin.readline().rstrip()
-print(parenthesis)
+# print(parenthesis)
 
 stack_A = []
 stack_B = []
 value = 1
-result = 0
 paried = True
+result = 0
+
 
 for i in range(len(parenthesis)):
     if parenthesis[i] == '(':
-        stack_A.append(parenthesis[i])
+        stack_A.append(i)
         value *= 2
     elif parenthesis[i] == '[':
-        stack_B.append(parenthesis[i])
+        stack_B.append(i)
         value *= 3
     elif parenthesis[i] == ')':
         if stack_A:
-            if stack_A.pop() == '(':
+            if parenthesis[i-1] == '(':
                 result += value
+            stack_A.pop()
             value //= 2
         else :
             paried = False
             break
     elif parenthesis[i] == ']':
         if stack_B:
-            if stack_B.pop() == '[':
+            if parenthesis[i-1] == '[':
                 result += value
+            stack_B.pop()
             value //= 3
         else :
             paried = False
